@@ -1,3 +1,3 @@
-mjölk,9,arla,123,ost,59,arla,124,yoghurt,39,arla,125,fil,49,arla,126
-lamm,299,stefansslakteri,200,biff,199,scan,201,kyckling,99,slakt,202,fläsk,149,scan,203
-Cherrios,49,kellogs,300,havrepuffar,39,kellogs,301,kalaspuffar,29,kellogs,302,tresor,59,kellogs,303
+mjölk,9,arla,123,ost,59,arla,124,yoghurt,39,arla,125,fil,49,arla,126,
+lamm,299,stefansslakteri,200,biff,199,scan,201,kyckling,99,slakt,202,fläsk,149,scan,203,
+Cherrios,49,kellogs,300,havrepuffar,39,kellogs,301,kalaspuffar,29,kellogs,302,tresor,59,kellogs,303,

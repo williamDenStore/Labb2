@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Category {
-    String category;
+    private String category;
     Scanner s = new Scanner(System.in);
     ArrayList<Product> products = new ArrayList<>();
 
@@ -16,6 +17,9 @@ public class Category {
         System.out.println("1. skapa en produkt av typen "+ category);
         System.out.println("2. skriv ut produkter i "+ category);
         System.out.println("3. ta bort produkt i "+ category);
+    }
+    public String category(){
+        return category;
     }
     private void menu() {
         String menuChoice="a";
@@ -51,24 +55,37 @@ public class Category {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category1 = (Category) o;
+        return Objects.equals(category, category1.category) && Objects.equals(s, category1.s) && Objects.equals(products, category1.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(category, s, products);
+    }
+
     private void printProducts() {
         for (int i = 0; i < products.size(); i++) {
-            System.out.println("produkt namn:" + products.get(i).name);
-            System.out.println("produkt pris:" + products.get(i).price);
-            System.out.println("produkt varumärke" + products.get(i).brand);
-            System.out.println("produkt id" + products.get(i).productId);
+            System.out.println("produkt namn:" + products.get(i).name());
+            System.out.println("produkt pris:" + products.get(i).price());
+            System.out.println("produkt varumärke" + products.get(i).brand());
+            System.out.println("produkt id" + products.get(i).productId());
         }
     }
 
     private void createProduct(){
-        System.out.println("skriv in namnet på produkten");
+        System.out.println("produkt namn");
         String name = s.nextLine();
-        System.out.println("skriv in priset på produkten");
+        System.out.println("produkt pris");
         int price = s.nextInt();
-        System.out.println("skriv in märket på produkten");
+        System.out.println("produkt märke");
         String brand = s.nextLine();
         s.next();
-        System.out.println("skriv in produktens id");
+        System.out.println("produkt id");
         int productId =s.nextInt();
         products.add(new Product(name,price,brand,productId));
         System.out.println("added");
@@ -76,7 +93,7 @@ public class Category {
     private void removeProduct(ArrayList<Product> products, Scanner s) {
         products.remove(selectProduct(products,s));
     }
-    private int selectProduct(ArrayList<Product> products, Scanner s) {
+    public int selectProduct(ArrayList<Product> products, Scanner s) {
         System.out.println("choose one of the following numbers");
         printProducts(products);
         int choice = s.nextInt();
@@ -84,7 +101,7 @@ public class Category {
     }
     private void printProducts(ArrayList<Product> products) {
         for (int i = 0; i < products.size(); i++) {
-            System.out.println("[" + i + "]" + products.get(i).name);
+            System.out.println("[" + i + "]" + products.get(i).name());
         }
     }
     public void initalizeProducts(int index){
@@ -101,7 +118,6 @@ public class Category {
             if(productsString.get(index).toString().charAt(j)!= ',')
                 word+= productsString.get(index).toString().charAt(j);
             if(productsString.get(index).toString().charAt(j)== ','){
-                System.out.println(productsString.get(index).toString().length());
                 if(count == 0) {
                     productName = word;
                 }
@@ -116,12 +132,14 @@ public class Category {
                     products.add(new Product(productName,productPrice,productBrand,productId));
                     count=-1;
                 }
-                System.out.println("index är "+count+" Word är "+word);
                 count++;
                 word="";
-
             }
         }
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 }
 
