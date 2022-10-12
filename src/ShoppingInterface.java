@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ShoppingInterface {
@@ -21,8 +22,8 @@ public class ShoppingInterface {
     private void addAllProductsToArrayList(){
         System.out.println(categories.size());
         for (int i = 0; i < categories.size(); i++) {
-            products.addAll(categories.get(i).getProducts());
-            System.out.println(categories.get(i).getProducts());
+            products.addAll(categories.get(i).products());
+            System.out.println(categories.get(i).products());
         }
         intalized=true;
     }
@@ -36,10 +37,11 @@ public class ShoppingInterface {
     }
     private void addToCart(){
         int i=0;
-        while(i<products.size()) {
-            i= selectOutOfAllProducts();
+        while(true) {
+            i = selectOutOfAllProducts();
             if(i<products.size())
                 cart.add(products.get(i));
+                break;
         }
     }
     private void printCart(){
@@ -47,7 +49,5 @@ public class ShoppingInterface {
             System.out.println(cart.get(i));
         }
     }
-
-
 }
 

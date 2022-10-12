@@ -1,41 +1,44 @@
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class Category {
-    private String category;
-    Scanner s = new Scanner(System.in);
-    ArrayList<Product> products = new ArrayList<>();
+    private final String categoryName;
 
-    public Category(String category) {
-        this.category = category;
+    ArrayList<Product> products = new ArrayList<>();
+    public String categoryName(){
+        return categoryName;
+    }
+    public Category(String categoryName, ArrayList<Product> products) {
+        this.categoryName = categoryName;
     }
     public void run(){
         menu();
     }
     private void printmenu() {
-        System.out.println("1. skapa en produkt av typen "+ category);
-        System.out.println("2. skriv ut produkter i "+ category);
-        System.out.println("3. ta bort produkt i "+ category);
+        System.out.println("1. skapa"+ categoryName + "produkter");
+        System.out.println("2. skriv ut "+ categoryName +" produkter");
+        System.out.println("3. ta bort"+ categoryName +"produkter");
+        System.out.println("e. gå tillbaka till kategori val");
+    }
+    public ArrayList<Product> products(){
+        return products;
     }
     public String category(){
-        return category;
+        return categoryName;
     }
     private void menu() {
+        Scanner s = new Scanner(System.in);
         String menuChoice="a";
         while(!menuChoice.equals("e")) {
             printmenu();
             menuChoice= s.nextLine();
             switch (menuChoice) {
-                case "1": createProduct();
+                case "1": createProduct(s);
                     break;
-                case "2":printProducts();
+                case "2":groupSameObjects(products);
                     break;
-                case "3":
-                    break;
-                case "4":
-                    break;
-                case "5":
+                case "3":removeProduct(products, s);
                     break;
                 case "e":
                     System.out.println("shutting down system");
@@ -51,7 +54,8 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" +
-                "products=" + products +
+                "categoryName='" + categoryName + '\'' +
+                ", products=" + products +
                 '}';
     }
 
@@ -59,13 +63,13 @@ public class Category {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category1 = (Category) o;
-        return Objects.equals(category, category1.category) && Objects.equals(s, category1.s) && Objects.equals(products, category1.products);
+        Category category = (Category) o;
+        return Objects.equals(categoryName, category.categoryName) && Objects.equals(products, category.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, s, products);
+        return Objects.hash(categoryName, products);
     }
 
     private void printProducts() {
@@ -77,15 +81,15 @@ public class Category {
         }
     }
 
-    private void createProduct(){
-        System.out.println("produkt namn");
+    private void createProduct(Scanner s){
+        System.out.println("skriv produkt namn");
         String name = s.nextLine();
-        System.out.println("produkt pris");
+        System.out.println("skriv produkt pris");
         int price = s.nextInt();
-        System.out.println("produkt märke");
+        System.out.println("skriv produkt märke");
         String brand = s.nextLine();
         s.next();
-        System.out.println("produkt id");
+        System.out.println("skriv produkt id");
         int productId =s.nextInt();
         products.add(new Product(name,price,brand,productId));
         System.out.println("added");
@@ -94,16 +98,31 @@ public class Category {
         products.remove(selectProduct(products,s));
     }
     public int selectProduct(ArrayList<Product> products, Scanner s) {
-        System.out.println("choose one of the following numbers");
-        printProducts(products);
+        System.out.println("välj ett att följade alternativ");
+        groupSameObjects(products);
         int choice = s.nextInt();
         return choice;
     }
-    private void printProducts(ArrayList<Product> products) {
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println("[" + i + "]" + products.get(i).name());
-        }
+    public static void groupSameObjects(ArrayList<Product> products){
+        products.stream()
+                .collect(Collectors.groupingBy(Product::productId))
+                .entrySet()
+                .forEach(findFirstAndPrint());;
     }
+
+    private static Consumer<Map.Entry<Integer, List<Product>>> findFirstAndPrint() {
+        return product -> {
+            System.out.print(product.getValue().size() + "st ");
+            if (product.getValue()
+                    .stream()
+                    .findFirst()
+                    .isPresent()) {
+                Product p = product.getValue().stream().findFirst().orElse(null);
+                System.out.println(p);
+            }
+        };
+    }
+
     public void initalizeProducts(int index){
         String word="";
         int count=0;
@@ -136,10 +155,6 @@ public class Category {
                 word="";
             }
         }
-    }
-
-    public ArrayList<Product> getProducts() {
-        return products;
     }
 }
 
