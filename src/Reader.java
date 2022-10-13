@@ -13,24 +13,7 @@ import java.util.List;
 
 
 public class Reader {
-    public ArrayList read(String readFile){
-        ArrayList<String> savedLines = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader("src/"+readFile+".txt");
-            BufferedReader br = new BufferedReader(fr);
-            String str;
-            while((str = br.readLine()) != null) {
-                savedLines.add(str);
-
-            }
-            br.close();
-        }
-        catch (IOException e){
-            System.out.println("Error in reader");
-        }
-        return savedLines;
-    }
-    public static ArrayList read1(){
+    public static ArrayList loadFiles(){
 
         try {
             Gson gson = new Gson();

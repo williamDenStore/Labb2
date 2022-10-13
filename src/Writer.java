@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Writer {
-    public static void write(ArrayList<Category> p){
+    public static void saveFiles(ArrayList<Category> p){
         String s = new Gson().toJson(p);
         try {
             Files.writeString(Path.of("src","products.json"), s);
