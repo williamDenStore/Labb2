@@ -84,9 +84,8 @@ public class Category {
     }
     public int selectProduct(ArrayList<Product> products, Scanner s) {
         System.out.println("välj ett att följade alternativ");
-        Search.groupSameObjects(products);
-        int choice = s.nextInt();
-        return choice;
+        Search.printGroupedObjects(Search.groupSameObjects(products));
+        return s.nextInt();
     }
 
 }

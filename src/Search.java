@@ -1,8 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.function.Consumer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Search {
@@ -20,7 +16,7 @@ public class Search {
                     break;
                 case "3":searchProductNamesMenu(s, categories);
                     break;
-                case "4": groupSameObjects(findAllAlternatives(categories));
+                case "4": printGroupedObjects(groupSameObjects(findAllAlternatives(categories)));
                     break;
                 default:
                     System.out.println("Error vänligen mata in korrekt alternativ");
@@ -44,7 +40,7 @@ public class Search {
     private static void searchProductName(String search, ArrayList<Category> categories) {
         ArrayList<Product> searchresult = new ArrayList<>();
         categories.forEach(category -> category.products().stream().filter(product -> product.name().contains(search)).forEach(searchresult::add));
-        groupSameObjects(searchresult);
+        printGroupedObjects(groupSameObjects(searchresult));
     }
     private static void searchProductsInPriceIntervall(Scanner s, ArrayList<Category> categories) {
         System.out.println("skriv intervallet du vill söka mellan \n lägsta pris");
@@ -58,10 +54,11 @@ public class Search {
         categories.forEach(c -> c.products()
                 .stream()
                 .filter(product -> product.price() < max && product.price() > min).forEach(searchresult::add));
-        groupSameObjects(searchresult);
+        printGroupedObjects(groupSameObjects(searchresult));
     }
     private static void searchProductsInCategory(Scanner s, ArrayList<Category> categories) {
-        groupSameObjects(categories.get(RunCategory.selectCategory(categories, s)).products());
+        var groupedCategories = groupSameObjects(categories.get(RunCategory.selectCategory(categories, s)).products());
+        printGroupedObjects(groupedCategories);
         System.out.println("skriv in valfritt tecken för att återgå till sök menyn");
         s.next();
     }
@@ -70,22 +67,16 @@ public class Search {
         categories.forEach(c -> result.addAll(c.products()));
         return result;
     }
-    public static void groupSameObjects(ArrayList<Product> products){
-        products.stream()
-                .collect(Collectors.groupingBy(Product::productId))
-                .entrySet()
-                .forEach(findFirstAndPrint());;
+    public static Map<Integer, List<Product>> groupSameObjects(ArrayList<Product> products){
+        Map<Integer, List<Product>> groupedProducts = products.stream()
+                .collect(Collectors.groupingBy(Product::productId));
+        return groupedProducts;
     }
-    private static Consumer<Map.Entry<Integer, List<Product>>> findFirstAndPrint() {
-        return product -> {
+    public static void printGroupedObjects(Map<Integer, List<Product>> products2) {
+        products2.entrySet().stream().forEach(product -> {
             System.out.print(product.getValue().size() + "st ");
-            if (product.getValue()
-                    .stream()
-                    .findFirst()
-                    .isPresent()) {
                 Product p = product.getValue().stream().findFirst().orElse(null);
                 System.out.println(p);
-            }
-        };
+        });
     }
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 public class Reader {
     public static ArrayList loadFiles(){
-
         try {
             Gson gson = new Gson();
             JsonReader reader = new JsonReader(new FileReader("src/products.json"));

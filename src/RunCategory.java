@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class RunCategory{
     Scanner s = new Scanner(System.in);
     ArrayList<Category> categories = new ArrayList<>();
-    ShoppingInterface shop = new ShoppingInterface(categories);
+    ShoppingInterface shop = new ShoppingInterface();
     public void running(){
         menu(categories, s);
     }
@@ -30,7 +30,7 @@ public class RunCategory{
                     break;
                 case "4":removeCategory();
                     break;
-                case "5":shop.run();
+                case "5":shop.run(categories);
                     break;
                 case "6":Search.searchAlternatives(categories);
                     break;
