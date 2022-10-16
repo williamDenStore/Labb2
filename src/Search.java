@@ -57,8 +57,7 @@ public class Search {
         printGroupedObjects(groupSameObjects(searchresult));
     }
     private static void searchProductsInCategory(Scanner s, ArrayList<Category> categories) {
-        var groupedCategories = groupSameObjects(categories.get(RunCategory.selectCategory(categories, s)).products());
-        printGroupedObjects(groupedCategories);
+        printGroupedObjects(groupSameObjects(categories.get(RunCategory.selectCategory(categories)).products()));
         System.out.println("skriv in valfritt tecken för att återgå till sök menyn");
         s.next();
     }

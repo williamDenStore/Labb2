@@ -10,6 +10,7 @@ public class RunCategory{
     }
     private void menu(ArrayList<Category> categories, Scanner s) {
         categories.addAll(Reader.loadFiles());
+        categories.forEach(c->c.products().forEach(Product::initalizeDisount));
         menuSwitch(categories, s);
         categories.forEach(i-> Writer.saveFiles(categories));
     }
@@ -26,7 +27,7 @@ public class RunCategory{
 
                     break;
                 case "3":
-                    categories.get(selectCategory(categories, s)).run();
+                    categories.get(selectCategory(categories)).run();
                     break;
                 case "4":removeCategory();
                     break;
@@ -56,13 +57,12 @@ public class RunCategory{
                 |-----------------------|""");
     }
     private void removeCategory() {
-        categories.remove(selectCategory(categories, s));
+        categories.remove(selectCategory(categories));
     }
-    public static int selectCategory(ArrayList<Category> categories, Scanner s) {
+    public static int selectCategory(ArrayList<Category> categories) {
         System.out.println("välj ett av följande nummer");
         printCategory(categories);
-        int choice = s.nextInt();
-        return choice;
+        return CatchExceptions.getInterger();
     }
     private static void printCategory(ArrayList<Category> categories) {
         for (int i = 0; i < categories.size(); i++) {
@@ -70,7 +70,8 @@ public class RunCategory{
         }
     }
     private void createCategory(){
-        categories.add(new Category(s.nextLine(),null));
+        System.out.println("skriv in namnet på kategorin");
+        categories.add(new Category(s.nextLine()));
         System.out.println("added");
     }
 }
