@@ -33,11 +33,11 @@ public class ShoppingInterface {
         return CatchExceptions.getInterger();
     }
     private void removeMatchingElements(ArrayList<Product> cart, ArrayList<Category> categories) {
-        for (int i = 0; i < categories.size(); i++) {
-            for (int j = 0; j < categories.get(i).products().size(); j++) {
-                for (int k = 0; k < cart.size(); k++) {
-                    if(categories.get(i).products().get(j).equals(cart.get(k))){
-                        categories.get(i).products().remove(j);
+        for (Category category : categories) {
+            for (int j = 0; j < category.products().size(); j++) {
+                for (Product product : cart) {
+                    if (category.products().get(j).equals(product)) {
+                        category.products().remove(j);
                         break;
                     }
                 }
@@ -45,8 +45,8 @@ public class ShoppingInterface {
         }
     }
     private void addAllProductsToArrayList(ArrayList<Category> categories){
-        for (int i = 0; i < categories.size(); i++) {
-            products1.addAll(categories.get(i).products());
+        for (Category category : categories) {
+            products1.addAll(category.products());
         }
         intalized=true;
     }
@@ -61,14 +61,13 @@ public class ShoppingInterface {
     }
     private void applyDiscounts(){
         double sumAfterDiscount=0;
-        for (int i = 0; i < cart.size(); i++) {
-            if(cart.get(i).discount==null){
-                sumAfterDiscount+=cart.get(i).price();
-                System.out.println(cart.get(i).price());
-            }
-            else {
-                sumAfterDiscount+=cart.get(i).getDiscount();
-                System.out.println("Before discount "+cart.get(i).price()+" after discount "+cart.get(i).getDiscount());
+        for (Product product : cart) {
+            if (product.discount == null) {
+                sumAfterDiscount += product.price();
+                System.out.println(product.price());
+            } else {
+                sumAfterDiscount += product.getDiscount();
+                System.out.println("Before discount " + product.price() + " after discount " + product.getDiscount());
             }
         }
         System.out.println("total summa efter rabatt "+sumAfterDiscount+"kr");

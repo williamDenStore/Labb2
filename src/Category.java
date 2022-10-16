@@ -53,7 +53,7 @@ public class Category {
                     break;
                 case "2":Search.printGroupedObjects(Search.groupSameObjects(products));
                     break;
-                case "3":removeProduct(products, s);
+                case "3":removeProduct(products);
                     break;
                 case "4": addDiscount(products, s);
                 case "e":
@@ -75,14 +75,14 @@ public class Category {
                 if (productChoice==0){
                     break;
                 }
-                int choice = selectDiscount(s);
+                int choice = selectDiscount();
                 Discounter discount = getDiscount(choice);
                 if (discount != null)
                     applyDiscount(productChoice, discount, products, choice);
             }
     }
 
-    private static int selectDiscount(Scanner s) {
+    private static int selectDiscount() {
         System.out.println("1. 50% rabatt");
         System.out.println("2. 20% rabatt");
         System.out.println("3. 10% rabatt");
@@ -127,10 +127,10 @@ public class Category {
         products.add(new Product(name,price,brand,productId));
         System.out.println("added");
     }
-    private void removeProduct(ArrayList<Product> products, Scanner s) {
-        products.remove(selectProduct(products,s));
+    private void removeProduct(ArrayList<Product> products) {
+        products.remove(selectProduct(products));
     }
-    public int selectProduct(ArrayList<Product> products, Scanner s) {
+    public int selectProduct(ArrayList<Product> products) {
         System.out.println("välj ett att följade alternativ");
         for (int i = 0; i < products.size(); i++) {
             System.out.println("["+i+"]"+ products.get(i));

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Writer {
     public static void saveFiles(ArrayList<Category> categories){
         String s = new Gson().toJson(categories);

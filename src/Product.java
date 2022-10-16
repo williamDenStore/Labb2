@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Product {
@@ -65,11 +64,6 @@ public class Product {
     public double price() {
         return price;
     }
-
-    public String brand() {
-        return brand;
-    }
-
     public int productId() {
         return productId;
     }
